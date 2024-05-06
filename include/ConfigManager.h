@@ -52,6 +52,7 @@ const QString LADSPA_PATH ="plugins/ladspa/";
 const QString DEFAULT_THEME_PATH = "themes/default/";
 const QString TRACK_ICON_PATH = "track_icons/";
 const QString LOCALE_PATH = "locale/";
+const QString CULTURES_PATH = "cultures/";
 const QString PORTABLE_MODE_FILE = "/portable_mode.txt";
 
 class LMMS_EXPORT ConfigManager : public QObject
@@ -217,6 +218,11 @@ public:
 	QString localeDir() const
 	{
 		return m_dataDir + LOCALE_PATH;
+	}
+
+	QString culturesDir() const
+	{
+		return m_dataDir + CULTURES_PATH;
 	}
 
 	const QString & version() const

@@ -28,6 +28,7 @@
 
 #include <QtMath>
 #include <QApplication>
+#include <QFontDatabase>
 #include <QHBoxLayout>
 #include <QInputDialog>
 #include <QKeyEvent>
@@ -120,14 +121,55 @@ const int NUM_TRIPLET_LENGTHS = 5;
 
 SimpleTextFloat * PianoRoll::s_textFloat = nullptr;
 
+/**
+ * Options available (keys-for-lmms):
+ * 	solfege
+ * 	sargam
+ * 	devanagari
+ * 	nashvile
+ * 	doremi
+ */
+static QString culture = "solfege-keys-for-lmms"; // read from user settings
 static std::array<QString, 12> s_noteStrings {
-	"C", "C\u266F / D\u266D", "D", "D\u266F / E\u266D", "E", "F", "F\u266F / G\u266D", 
-	"G", "G\u266F / A\u266D", "A", "A\u266F / B\u266D", "B"
+	// With \u codes
+	//"C", "C\u266F / D\u266D", "D", "D\u266F / E\u266D", "E", "F", "F\u266F / G\u266D", 
+	//"G", "G\u266F / A\u266D", "A", "A\u266F / B\u266D", "B",
+
+	// English regular
+	//"C", "C♯ / D♭", "D", "D♯ / E♭", "E", "F", "F♯ / G♭", 
+	//"G", "G♯ / A♭", "A", "A♯ / B♭", "B",
+
+	// Classical sargam using roman short forms
+	//"S", "r", "R", "g", "G", "m", "M",
+	//"P", "d", "D", "n", "N",
+
+	// devanari unicode based
+	// @todo the combo box should draw with fonts
+	"सा", ".रे", "रे", ".ग", "ग", "म", "म'",
+	"प", ".ध", "ध", "ऩि", "नि",
+};
+
+// A[0065] corresponds to: sa, C
+// B[0066] corresponds to: re., C#, Db
+// C[0067] corresponds to: 
+// D[0068] corresponds to: 
+// E[0069] corresponds to: 
+// F[0070] corresponds to: 
+// G[0071] corresponds to: 
+// H[0072] corresponds to: 
+// I[0073] corresponds to:
+// J[0074] corresponds to:
+// K[0075] corresponds to:
+// L[0076] corresponds to:
+// ASCII range in the culture font
+static std::array<QString, 12> s_noteStrings_in_font {
+	"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L",
 };
 
 static QString getNoteString(int key)
 {
-	return s_noteStrings[key % 12] + QString::number(static_cast<int>(FirstOctave + key / KeysPerOctave));
+	//return s_noteStrings[key % 12] + QString::number(static_cast<int>(FirstOctave + key / KeysPerOctave));
+	return s_noteStrings_in_font[key % 12] + QString::number(static_cast<int>(FirstOctave + key / KeysPerOctave));
 }
 
 // used for drawing of piano
@@ -213,6 +255,13 @@ PianoRoll::PianoRoll() :
 	m_whiteKeyWidth(WHITE_KEY_WIDTH),
 	m_blackKeyWidth(BLACK_KEY_WIDTH)
 {
+	// Load available culture font files.
+	QString culturesDir = ConfigManager::inst()->culturesDir();
+	QFontDatabase::addApplicationFont(culturesDir+"/sargam-keys-for-lmms.ttf");
+	QFontDatabase::addApplicationFont(culturesDir+"/devanagari-keys-for-lmms.ttf");
+	QFontDatabase::addApplicationFont(culturesDir+"/doremi-keys-for-lmms.ttf");
+	QFontDatabase::addApplicationFont(culturesDir+"/solfege-keys-for-lmms.ttf");
+
 	// gui names of edit modes
 	m_nemStr.push_back( tr( "Note Velocity" ) );
 	m_nemStr.push_back( tr( "Note Panning" ) );
@@ -1027,7 +1076,8 @@ void PianoRoll::drawNoteRect( QPainter & p, int x, int y,
 		{
 			QString noteKeyString = getNoteString(n->key());
 
-			QFont noteFont(p.font());
+			//QFont noteFont(p.font());
+			QFont noteFont(culture);
 			noteFont.setPixelSize(noteTextHeight);
 			QFontMetrics fontMetrics(noteFont);
 			QSize textSize = fontMetrics.size(Qt::TextSingleLine, noteKeyString);
@@ -3016,7 +3066,8 @@ void PianoRoll::paintEvent(QPaintEvent * pe )
 	p.fillRect( 0, 0, width(), height(), bgColor );
 
 	// set font-size to 80% of key line height
-	QFont f = p.font();
+	//QFont f = p.font();
+	QFont f(culture);
 	f.setPixelSize(m_keyLineHeight * 0.8);
 	p.setFont(f); // font size doesn't change without this for some reason
 	QFontMetrics fontMetrics(p.font());
