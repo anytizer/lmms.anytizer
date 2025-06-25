@@ -35,10 +35,10 @@ class ColorHelper
 public:
 	static QColor interpolateInRgb(const QColor& a, const QColor& b, float t)
 	{
-		qreal ar, ag, ab, aa;
+		float ar, ag, ab, aa;
 		a.getRgbF(&ar, &ag, &ab, &aa);
 
-		qreal br, bg, bb, ba;
+		float br, bg, bb, ba;
 		b.getRgbF(&br, &bg, &bb, &ba);
 
 		const auto t2 = static_cast<qreal>(t);

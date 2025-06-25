@@ -36,6 +36,7 @@
 #include <QTextEdit>
 #include <QToolBar>
 #include <QDomCDATASection>
+#include <QActionGroup>
 
 #include "embed.h"
 #include "Engine.h"

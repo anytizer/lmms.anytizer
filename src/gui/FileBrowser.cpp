@@ -676,7 +676,7 @@ void FileBrowserTreeWidget::contextMenuEvent(QContextMenuEvent* e)
 		const auto path = QFileInfo{file->fullName()}.absoluteFilePath();
 
 		contextMenu.addAction(QIcon(embed::getIconPixmap("folder")), tr("Show in %1").arg(fileManager),
-			[=] { FileRevealer::reveal(file->fullName()); });
+			[=] { FileRevealer::reveal(QFileInfo(file->fullName())); });
 
 		if (ConfigManager::inst()->isFavoriteItem(file->fullName()))
 		{
@@ -712,7 +712,7 @@ void FileBrowserTreeWidget::contextMenuEvent(QContextMenuEvent* e)
 		const auto path = QFileInfo{dir->fullName()}.absoluteFilePath();
 
 		contextMenu.addAction(QIcon(embed::getIconPixmap("folder")), tr("Open in %1").arg(fileManager), [=] {
-			FileRevealer::openDir(dir->fullName());
+			FileRevealer::openDir(QFileInfo(dir->fullName()));
 		});
 
 		if (ConfigManager::inst()->isFavoriteItem(dir->fullName()))

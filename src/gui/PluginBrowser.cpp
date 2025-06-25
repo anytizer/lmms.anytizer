@@ -260,11 +260,11 @@ void PluginDescWidget::paintEvent( QPaintEvent * )
 
 
 
-void PluginDescWidget::enterEvent( QEvent * _e )
+void PluginDescWidget::enterEvent( QEnterEvent * _e )
 {
 	m_mouseOver = true;
 
-	QWidget::enterEvent( _e );
+	QWidget::enterEvent(_e);
 }
 
 

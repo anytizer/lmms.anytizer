@@ -128,7 +128,7 @@ private:
 	int smartSpacing(QStyle::PixelMetric pm) const;
 	QMap<QString, QLayoutItem *>::const_iterator pairAt(int index) const;
 
-	QMultiMap<QString, QLayoutItem *> m_itemMap;
+	QMap<QString, QLayoutItem *> m_itemMap;
 	int m_hSpace;
 	int m_vSpace;
 	// relevant dimension is width, as later, heightForWidth() will be called

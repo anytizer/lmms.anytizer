@@ -1,6 +1,9 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.13)
 SET(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+#SET(CMAKE_CXX_STANDARD 20)
+#SET(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 # Set the given policy to NEW. If it does not exist, it will not be set. If it
 # is already set to NEW (most likely due to predating the minimum required CMake
 # version), a developer warning is emitted indicating that the policy need no
@@ -174,31 +177,31 @@ check_library_exists(rt shm_open "" LMMS_HAVE_LIBRT)
 
 LIST(APPEND CMAKE_PREFIX_PATH "${CMAKE_INSTALL_PREFIX}")
 
-FIND_PACKAGE(Qt5 5.9.0 COMPONENTS Core Gui Widgets Xml Svg REQUIRED)
-FIND_PACKAGE(Qt5 COMPONENTS LinguistTools QUIET)
+FIND_PACKAGE(Qt6 6.4.0 COMPONENTS Core Gui Widgets Xml Svg REQUIRED)
+FIND_PACKAGE(Qt6 COMPONENTS LinguistTools QUIET)
 
 include_directories(SYSTEM
-	${Qt5Core_INCLUDE_DIRS}
-	${Qt5Gui_INCLUDE_DIRS}
-	${Qt5Widgets_INCLUDE_DIRS}
-	${Qt5Xml_INCLUDE_DIRS}
+	${Qt6Core_INCLUDE_DIRS}
+	${Qt6Gui_INCLUDE_DIRS}
+	${Qt6Widgets_INCLUDE_DIRS}
+	${Qt6Xml_INCLUDE_DIRS}
 )
 
 SET(QT_LIBRARIES
-	Qt5::Core
-	Qt5::Gui
-	Qt5::Widgets
-	Qt5::Xml
-	Qt5::Svg
+	Qt6::Core
+	Qt6::Gui
+	Qt6::Widgets
+	Qt6::Xml
+	Qt6::Svg
 )
 
 IF(LMMS_BUILD_LINUX AND WANT_VST)
-    FIND_PACKAGE(Qt5 COMPONENTS X11Extras REQUIRED)
-    LIST(APPEND QT_LIBRARIES Qt5::X11Extras)
+    FIND_PACKAGE(Qt6 COMPONENTS X11Extras REQUIRED)
+    LIST(APPEND QT_LIBRARIES Qt6::X11Extras)
 ENDIF()
 
-# Resolve Qt5::qmake to full path for use in packaging scripts
-GET_TARGET_PROPERTY(QT_QMAKE_EXECUTABLE "${Qt5Core_QMAKE_EXECUTABLE}" IMPORTED_LOCATION)
+# Resolve Q6::qmake to full path for use in packaging scripts
+#GET_TARGET_PROPERTY(QT_QMAKE_EXECUTABLE "${Qt6Core_QMAKE_EXECUTABLE}" IMPORTED_LOCATION)
 
 # Find the location of Qt translation files
 execute_process(COMMAND ${QT_QMAKE_EXECUTABLE} -query QT_INSTALL_TRANSLATIONS
@@ -211,8 +214,8 @@ IF(EXISTS "${QT_TRANSLATIONS_DIR}")
 	ADD_DEFINITIONS("-DQT_TRANSLATIONS_DIR=\"${QT_TRANSLATIONS_DIR}\"")
 ENDIF()
 
-FIND_PACKAGE(Qt5Test)
-SET(QT_QTTEST_LIBRARY Qt5::Test)
+FIND_PACKAGE(Qt6Test)
+SET(QT_QTTEST_LIBRARY Qt6::Test)
 
 # check for libsndfile
 FIND_PACKAGE(SndFile REQUIRED)

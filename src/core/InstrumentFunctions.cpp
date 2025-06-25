@@ -492,7 +492,7 @@ void InstrumentFunctionArpeggio::processNote( NotePlayHandle * _n )
 		{
 			const auto octaveDiv = std::div(cur_arp_idx, total_chord_size);
 			const int octave = octaveDiv.quot;
-			const auto arpDiv = std::div(octaveDiv.rem, cnphv.size());
+			const auto arpDiv = std::div((int)octaveDiv.rem, (int)cnphv.size());
 			const int arpIndex = arpDiv.rem;
 			const int chordIndex = arpDiv.quot;
 			sub_note_key = cnphv[arpIndex]->key()

@@ -182,7 +182,7 @@ QWidget * LadspaMatrixControlDialog::createMatrixWidget()
 {
 	QWidget *widget = new QWidget(this);
 	QGridLayout *gridLayout = new QGridLayout(widget);
-	gridLayout->setMargin(0);
+	//gridLayout->setMargin(0); // for Qt6
 	widget->setLayout(gridLayout);
 
 	arrangeControls(widget, gridLayout);

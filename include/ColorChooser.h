@@ -55,7 +55,16 @@ protected:
 	//! Forward key events to the parent to prevent stuck notes when the dialog gets focus
 	void keyReleaseEvent(QKeyEvent *event) override
 	{
-		QKeyEvent ke(*event);
+		// "QKeyEvent::QKeyEvent(const QKeyEvent &)" (declared at line 417 of "/usr/include/x86_64-linux-gnu/qt6/QtGui/qevent.h") is inaccessibleC/C++(330)
+		// QKeyEvent ke(*event);
+		QKeyEvent ke(
+			event->type(), 
+			event->key(), 
+			event->modifiers(), 
+			event->text(), 
+			event->isAutoRepeat(), 
+			event->count()
+		);
 		QApplication::sendEvent(parentWidget(), &ke);
 	}
 private:
