@@ -188,7 +188,7 @@ void printHelp()
 		"  -a, --float                    Use 32bit float bit depth\n"
 		"  -b, --bitrate <bitrate>        Specify output bitrate in KBit/s\n"
 		"          Default: 160.\n"
-		"  -f, --format <format>         Specify format of render-output where\n"
+		"  -f, --format <format>          Specify format of render-output where\n"
 		"          Format is either 'wav', 'flac', 'ogg' or 'mp3'.\n"
 		"  -i, --interpolation <method>   Specify interpolation method\n"
 		"          Possible values:\n"
